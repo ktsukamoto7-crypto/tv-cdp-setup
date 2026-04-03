@@ -24,10 +24,11 @@ Set-ExecutionPolicy -Scope Process Bypass
 ## セットアップ後
 
 ```powershell
-# tradingview-mcp をクローン
+# tradingview-mcp をクローン & tv CLI を有効化
 git clone https://github.com/tradesdontlie/tradingview-mcp.git
 cd tradingview-mcp
 npm install
+npm link   # tv コマンドをグローバルに登録
 
 # Claude Code に MCP サーバーを登録
 claude mcp add tradingview -s user -- node C:\Users\$env:USERNAME\tradingview-mcp\src\server.js
@@ -35,6 +36,20 @@ claude mcp add tradingview -s user -- node C:\Users\$env:USERNAME\tradingview-mc
 
 1. スタートメニューから TradingView を起動
 2. Claude Code を起動 → TradingView MCP が自動接続
+
+## TI リプレイ使い方
+
+```powershell
+# matched parquet を results/ に置いて実行
+python tv_replay_markers.py --file results/case_17223_matched.parquet --date 2026-02-12
+
+# 前の日のマーカーをクリアしてから描画
+python tv_replay_markers.py --file results/case_17223_matched.parquet --date 2026-02-09 --clear
+```
+
+- 緑テキスト = WIN、赤テキスト = LOSE
+- `^L` = LONG entry、`vS` = SHORT entry
+- TV のリプレイバーで時間を進めながら各エントリーの文脈を確認
 
 ## 仕組み
 
